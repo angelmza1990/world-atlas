@@ -97,12 +97,23 @@
       return MH.responsive(el, (W) => {
         // fit the width, then size the height to the land actually drawn (no Antarctica)
         const fc = { type: "FeatureCollection", features };
+        // fitTo(country) -> true for the shapes to frame (e.g. one continent); the rest of the world stays drawn
+        const frame = opts.fitTo ? { type: "FeatureCollection", features: features.filter((f) => opts.byNum[f.id] && opts.fitTo(opts.byNum[f.id])) } : fc;
+        if (opts.fitTo) {
+          const H0 = Math.round(W * 0.62);
+          const projection = d3.geoEqualEarth().fitExtent([[8, 8], [W - 8, H0 - 8]], frame);
+          return render(W, H0, projection);
+        }
         const projection = d3.geoEqualEarth().fitWidth(W, fc);
         const path = d3.geoPath(projection);
         const [[, y0], [, y1]] = path.bounds(fc);
         projection.translate([projection.translate()[0], projection.translate()[1] - y0]);
-        const H = Math.ceil(y1 - y0);
-        const svg = d3.create("svg").attr("viewBox", `0 0 ${W} ${H}`).attr("role", "img").attr("aria-label", opts.label || "World map");
+        return render(W, Math.ceil(y1 - y0), projection);
+      });
+      function render(W, H, projection) {
+        const path = d3.geoPath(projection);
+        const svg = d3.create("svg").attr("viewBox", `0 0 ${W} ${H}`).attr("role", "img").attr("aria-label", opts.label || "World map")
+          .style("overflow", "hidden"); // a framed map must not spill the rest of the world outside its box
         svg.append("g").selectAll("path").data(features).join("path")
           .attr("d", path)
           .attr("fill", (f) => {
@@ -129,7 +140,7 @@
             .attr("stroke", "var(--ink)").attr("stroke-width", 1.5).raise();
         }
         el.replaceChildren(svg.node());
-      });
+      }
     });
   }
 
@@ -138,14 +149,16 @@
   function pyramid(el, data, groups, opts = {}) {
     return MH.responsive(el, (W) => {
       const n = groups.length, row = opts.row || 16;
-      const H = n * row + 34;
+      const H = n * row + 52;
       const total = d3.sum(data[0]) + d3.sum(data[1]);
       const share = data.map((side) => side.map((v) => v / total));
       const max = opts.max || d3.max(share.flat());
       const mid = W / 2, lab = 36, half = mid - lab / 2 - 8;
       const x = d3.scaleLinear().domain([0, max]).range([0, half]);
       const svg = d3.create("svg").attr("viewBox", `0 0 ${W} ${H}`).attr("role", "img").attr("aria-label", opts.label || "Population pyramid");
-      const g = svg.append("g").attr("transform", "translate(0,6)");
+      svg.append("text").attr("x", mid - lab / 2 - 4).attr("y", 12).attr("text-anchor", "end").style("fill", "var(--ink-2)").text("Men");
+      svg.append("text").attr("x", mid + lab / 2 + 4).attr("y", 12).style("fill", "var(--ink-2)").text("Women");
+      const g = svg.append("g").attr("transform", "translate(0,22)");
       const y = (i) => (n - 1 - i) * row;
       const bh = row - 3;
       for (let i = 0; i < n; i++) {
@@ -166,8 +179,6 @@
       for (const t of ticks) {
         for (const xx of [mid - lab / 2 - x(t), mid + lab / 2 + x(t)]) g.append("text").attr("x", xx).attr("y", axisY + 10).attr("text-anchor", "middle").text(MH.pct(t, t < 0.01 ? 1 : 0));
       }
-      g.append("text").attr("x", 4).attr("y", axisY + 10).style("fill", "var(--ink-2)").text("Men");
-      g.append("text").attr("x", W - 4).attr("y", axisY + 10).attr("text-anchor", "end").style("fill", "var(--ink-2)").text("Women");
       el.replaceChildren(svg.node());
     });
   }

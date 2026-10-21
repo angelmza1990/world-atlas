@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en" data-root="..">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Countries · World Atlas</title>
+  <meta name="description" content="Profile of every country: key facts, population, birth and death rates, fertility, life expectancy, GDP, economic structure and population pyramids since 1960.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231f3a5f'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='white' stroke-width='4'/%3E%3Cpath d='M15 32h34M32 15c-9 9-9 25 0 34M32 15c9 9 9 25 0 34' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/theme.css">
+  <style>
+    .search { display: flex; gap: 8px; align-items: center; }
+    .search input { font: 500 14px var(--sans); padding: 7px 10px; border: 1px solid var(--line-2); border-radius: 7px; background: var(--surface); color: var(--ink); width: 280px; max-width: 100%; }
+    .country-head { display: flex; gap: 18px; align-items: center; margin-top: 8px; }
+    .country-head img { width: 84px; height: 56px; object-fit: cover; border-radius: 4px; box-shadow: 0 0 0 1px var(--line); }
+    .facts { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 7px 14px; font-size: 14px; margin: 0; }
+    .facts dt { color: var(--muted); }
+    .facts dd { margin: 0; color: var(--ink); }
+    .facts a { color: var(--ink); }
+    .tile .rank { font-size: 12px; color: var(--muted); margin-top: 4px; }
+    .tile .cmp { font-size: 12px; color: var(--ink-2); margin-top: 6px; line-height: 1.45; }
+    .charts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .charts .card { margin: 0; min-width: 0; }
+    .charts .card + .card { margin: 0; }
+    .charts h3 { text-transform: none; letter-spacing: 0; font-size: 15px; color: var(--ink); margin: 0 0 2px; }
+    .charts .meta { font-size: 13px; color: var(--muted); margin: 0 0 8px; }
+    @media (max-width: 860px) { .charts { grid-template-columns: 1fr; } .facts { grid-template-columns: 120px minmax(0, 1fr); } }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="wrap">
+      <header class="page-head">
+        <div class="search">
+          <input id="search" list="country-list" placeholder="Search a country…" autocomplete="off" aria-label="Search a country">
+          <datalist id="country-list"></datalist>
+        </div>
+        <div class="country-head" id="head"></div>
+      </header>
+
+      <section class="block">
+        <div class="grid-2">
+          <div class="card"><dl class="facts" id="facts"></dl></div>
+          <div class="card"><div class="chart" id="locator"></div><p class="note" id="neighbours-note"></p></div>
+        </div>
+      </section>
+
+      <section class="block">
+        <h2>Key figures</h2>
+        <p class="sub">Latest year available. The rank counts every country with data, from the highest value down.</p>
+        <div class="tiles" id="tiles"></div>
+      </section>
+
+      <section class="block">
+        <h2>Population pyramid</h2>
+        <p class="sub" id="pyr-sub">Share of the population in each five-year age group.</p>
+        <div class="controls"><label class="control">Compare with <select id="pyr-year"></select></label></div>
+        <div class="grid-2">
+          <div class="card"><h3 id="pyr-a-title"></h3><div class="chart" id="pyr-a"></div></div>
+          <div class="card"><h3 id="pyr-b-title"></h3><div class="chart" id="pyr-b"></div></div>
+        </div>
+      </section>
+
+      <section class="block">
+        <h2>Since 1960</h2>
+        <p class="sub" id="since-sub"></p>
+        <div class="charts" id="charts"></div>
+      </section>
+    </div>
+  </main>
+
+  <script src="../assets/vendor/d3.v7.9.0.min.js"></script>
+  <script src="../assets/vendor/topojson-client.3.1.0.min.js"></script>
+  <script src="../assets/core.js"></script>
+  <script src="../assets/atlas.js"></script>
+  <script src="../assets/pages/country.js"></script>
+</body>
+</html>
