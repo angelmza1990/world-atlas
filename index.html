@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en" data-root=".">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>World Atlas</title>
+  <meta name="description" content="Population, birth rates, GDP, density, area and more for every country and continent, on a world map and in rankings, from World Bank data.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231f3a5f'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='white' stroke-width='4'/%3E%3Cpath d='M15 32h34M32 15c-9 9-9 25 0 34M32 15c9 9 9 25 0 34' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="assets/theme.css">
+  <style>
+    .map-wrap { position: relative; }
+    .year-row { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--ink-2); }
+    .year-row input[type="range"] { width: 220px; accent-color: var(--accent); }
+    .year-row b { font-variant-numeric: tabular-nums; color: var(--ink); min-width: 36px; }
+    #ranking a { color: var(--ink); text-decoration: none; }
+    #ranking a:hover { text-decoration: underline; }
+    .share-bar { display: inline-block; height: 8px; border-radius: 2px; background: var(--s1); vertical-align: middle; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="wrap">
+      <header class="page-head">
+        <p class="eyebrow">Population · Demography · Economy</p>
+        <h1>World Atlas</h1>
+        <p class="lede">How many people live in each country, how fast they are growing, how long they live, how much they produce and how much land they share, for 217 countries and six continents since 1960.</p>
+        <p class="updated" id="updated"></p>
+      </header>
+
+      <section class="block">
+        <h2>The world today</h2>
+        <p class="sub" id="world-sub">Sum or population-weighted average of all countries with data.</p>
+        <div class="tiles" id="tiles"></div>
+      </section>
+
+      <section class="block">
+        <div class="controls">
+          <label class="control">Indicator <select id="indicator"></select></label>
+          <span class="year-row">Year <input type="range" id="year" min="1960" max="2025" step="1"><b id="year-label"></b></span>
+        </div>
+        <div class="card">
+          <h2 id="map-title"></h2>
+          <p class="sub" id="map-sub" style="margin-bottom:8px"></p>
+          <div class="chart map-wrap" id="map"></div>
+          <div class="legend" id="legend"></div>
+          <p class="note">Click a country for its profile. Where a country has no figure for the chosen year, its most recent one from the four years before is used.</p>
+        </div>
+      </section>
+
+      <section class="block">
+        <h2 id="rank-title">Ranking</h2>
+        <div class="controls"><span class="control">Continent <span id="cont-filter"></span></span></div>
+        <div class="card table-scroll" style="max-height:80vh;overflow:auto">
+          <table class="data" id="ranking"></table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="assets/vendor/d3.v7.9.0.min.js"></script>
+  <script src="assets/vendor/topojson-client.3.1.0.min.js"></script>
+  <script src="assets/core.js"></script>
+  <script src="assets/atlas.js"></script>
+  <script src="assets/pages/map.js"></script>
+</body>
+</html>

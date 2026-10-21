@@ -95,11 +95,14 @@
     return loadShapes().then((geo) => {
       const features = geo.features.filter((f) => f.id !== "010"); // Antarctica
       return MH.responsive(el, (W) => {
-        const H = Math.round(W * 0.5);
-        const projection = d3.geoEqualEarth().fitSize([W, H], { type: "FeatureCollection", features });
+        // fit the width, then size the height to the land actually drawn (no Antarctica)
+        const fc = { type: "FeatureCollection", features };
+        const projection = d3.geoEqualEarth().fitWidth(W, fc);
         const path = d3.geoPath(projection);
+        const [[, y0], [, y1]] = path.bounds(fc);
+        projection.translate([projection.translate()[0], projection.translate()[1] - y0]);
+        const H = Math.ceil(y1 - y0);
         const svg = d3.create("svg").attr("viewBox", `0 0 ${W} ${H}`).attr("role", "img").attr("aria-label", opts.label || "World map");
-        svg.append("path").attr("d", path({ type: "Sphere" })).attr("fill", "none").attr("stroke", "var(--line)");
         svg.append("g").selectAll("path").data(features).join("path")
           .attr("d", path)
           .attr("fill", (f) => {
