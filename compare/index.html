@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en" data-root="..">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Compare · World Atlas</title>
+  <meta name="description" content="Plot any two indicators for every country: fertility against income, life expectancy against GDP per capita, density against area, by year since 1960.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231f3a5f'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='white' stroke-width='4'/%3E%3Cpath d='M15 32h34M32 15c-9 9-9 25 0 34M32 15c9 9 9 25 0 34' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/theme.css">
+  <style>
+    .year-row { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--ink-2); }
+    .year-row input[type="range"] { width: 220px; accent-color: var(--accent); }
+    .year-row b { font-variant-numeric: tabular-nums; color: var(--ink); min-width: 36px; }
+    .facets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .facets .card { margin: 0; padding: 12px 14px; min-width: 0; }
+    .facets .card + .card { margin: 0; }
+    .facets h3 { text-transform: none; letter-spacing: 0; font-size: 14px; color: var(--ink); margin: 0 0 4px; }
+    .scatter circle { cursor: pointer; }
+    @media (max-width: 860px) { .facets { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 560px) { .facets { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="wrap">
+      <header class="page-head">
+        <p class="eyebrow">World Atlas</p>
+        <h1>Compare indicators</h1>
+        <p class="lede">Every country as a circle sized by its population, placed by two indicators of your choice. Pick a year to see how the picture changed since 1960.</p>
+      </header>
+
+      <section class="block">
+        <div class="controls"><span class="control">Start from <span id="presets"></span></span></div>
+        <div class="controls">
+          <label class="control">Horizontal <select id="x"></select></label>
+          <label class="control">Vertical <select id="y"></select></label>
+          <span class="year-row">Year <input type="range" id="year" min="1960" max="2025" step="1"><b id="year-label"></b></span>
+        </div>
+        <div class="controls">
+          <span class="control">Scale <span id="scale-x"></span></span>
+          <span class="control">View <span id="view"></span></span>
+          <span class="control" id="focus-wrap">Highlight <span id="focus"></span></span>
+        </div>
+        <div id="out"></div>
+        <p class="note" id="note"></p>
+      </section>
+    </div>
+  </main>
+
+  <script src="../assets/vendor/d3.v7.9.0.min.js"></script>
+  <script src="../assets/core.js"></script>
+  <script src="../assets/atlas.js"></script>
+  <script src="../assets/pages/compare.js"></script>
+</body>
+</html>
