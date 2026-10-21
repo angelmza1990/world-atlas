@@ -262,3 +262,8 @@ table.heat tfoot th { position: sticky; left: 0; background: var(--surface); tex
 .control { min-width: 0; max-width: 100%; }
 .control select { min-width: 0; max-width: 100%; text-overflow: ellipsis; }
 .grid-2 > *, .grid-3 > *, .multiples > * { min-width: 0; }
+
+/* population pyramids: neutral tones, so sexes never look like a continent */
+:root { --sex-m: #4f6478; --sex-f: #9fb0c2; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --sex-m: #8ea3b8; --sex-f: #4c5d6e; } }
+:root[data-theme="dark"] { --sex-m: #8ea3b8; --sex-f: #4c5d6e; }

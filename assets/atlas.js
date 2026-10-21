@@ -163,13 +163,13 @@
       const bh = row - 3;
       for (let i = 0; i < n; i++) {
         const m = share[1][i], f = share[0][i];
-        g.append("rect").attr("x", mid - lab / 2 - x(m)).attr("y", y(i)).attr("width", x(m)).attr("height", bh).attr("rx", 2).attr("fill", "var(--s1)");
-        g.append("rect").attr("x", mid + lab / 2).attr("y", y(i)).attr("width", x(f)).attr("height", bh).attr("rx", 2).attr("fill", "var(--s2)");
+        g.append("rect").attr("x", mid - lab / 2 - x(m)).attr("y", y(i)).attr("width", x(m)).attr("height", bh).attr("rx", 2).attr("fill", "var(--sex-m)");
+        g.append("rect").attr("x", mid + lab / 2).attr("y", y(i)).attr("width", x(f)).attr("height", bh).attr("rx", 2).attr("fill", "var(--sex-f)");
         g.append("text").attr("x", mid).attr("y", y(i) + bh - 3).attr("text-anchor", "middle").style("font-size", "10.5px").text(groups[i]);
         g.append("rect").attr("x", 0).attr("y", y(i) - 1).attr("width", W).attr("height", row).attr("fill", "transparent")
           .on("pointermove", (evt) => MH.showTip(evt, `Age ${groups[i]}`, [
-            { color: "var(--s1)", value: `${MH.pct(m, 1)} · ${compact(data[1][i], 2)}`, label: "men" },
-            { color: "var(--s2)", value: `${MH.pct(f, 1)} · ${compact(data[0][i], 2)}`, label: "women" },
+            { color: "var(--sex-m)", value: `${MH.pct(m, 1)} · ${compact(data[1][i], 2)}`, label: "men" },
+            { color: "var(--sex-f)", value: `${MH.pct(f, 1)} · ${compact(data[0][i], 2)}`, label: "women" },
           ]))
           .on("pointerleave", MH.hideTip);
       }

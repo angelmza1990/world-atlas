@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en" data-root="..">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Continents · World Atlas</title>
+  <meta name="description" content="The six continents compared: population, land, GDP, birth rates, fertility, life expectancy and age structure since 1960.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231f3a5f'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='white' stroke-width='4'/%3E%3Cpath d='M15 32h34M32 15c-9 9-9 25 0 34M32 15c9 9 9 25 0 34' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/theme.css">
+  <style>
+    .shares { display: grid; gap: 14px; }
+    .share-row .lbl { font-size: 13px; color: var(--ink-2); margin-bottom: 4px; display: flex; justify-content: space-between; }
+    .stack { display: flex; height: 34px; gap: 2px; border-radius: 4px; overflow: hidden; }
+    .stack span { display: flex; align-items: center; justify-content: center; color: #fff; font-size: 11.5px; font-weight: 600; min-width: 0; overflow: hidden; white-space: nowrap; cursor: default; }
+    .charts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .charts .card, .pyrs .card { margin: 0; min-width: 0; }
+    .charts .card + .card, .pyrs .card + .card { margin: 0; }
+    .charts h3, .pyrs h3 { text-transform: none; letter-spacing: 0; font-size: 15px; color: var(--ink); margin: 0 0 2px; }
+    .charts .meta, .pyrs .meta { font-size: 13px; color: var(--muted); margin: 0 0 8px; }
+    .pyrs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .dot { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: 0; }
+    .top-list { margin: 6px 0 0; padding: 0; list-style: none; font-size: 13px; }
+    .top-list li { display: flex; justify-content: space-between; padding: 2px 0; }
+    .top-list a { color: var(--ink); text-decoration: none; }
+    @media (max-width: 860px) { .charts { grid-template-columns: 1fr; } .pyrs { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 560px) { .pyrs { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="wrap">
+      <header class="page-head">
+        <p class="eyebrow">World Atlas</p>
+        <h1>Continents</h1>
+        <p class="lede">Six continents built from their countries: Africa, Asia, Europe (including Russia), North America (with Central America and the Caribbean), South America and Oceania.</p>
+        <p class="updated" id="updated"></p>
+      </header>
+
+      <section class="block">
+        <h2>Share of the world</h2>
+        <p class="sub">Where people live, how much land each continent holds, and where output is produced.</p>
+        <div class="card"><div class="shares" id="shares"></div><div class="legend" id="shares-legend"></div></div>
+      </section>
+
+      <section class="block">
+        <h2>Side by side</h2>
+        <p class="sub">Latest year with data for every continent. Rates are averages weighted by population.</p>
+        <div class="card table-scroll"><table class="data" id="table"></table></div>
+      </section>
+
+      <section class="block">
+        <h2>Since 1960</h2>
+        <div class="charts" id="charts"></div>
+        <div class="legend" id="charts-legend" style="margin-top:14px"></div>
+      </section>
+
+      <section class="block">
+        <h2>Age structure</h2>
+        <p class="sub" id="pyr-sub">Population pyramids, latest year. Men left, women right, as a share of each continent's population.</p>
+        <div class="pyrs" id="pyrs"></div>
+      </section>
+    </div>
+  </main>
+
+  <script src="../assets/vendor/d3.v7.9.0.min.js"></script>
+  <script src="../assets/core.js"></script>
+  <script src="../assets/atlas.js"></script>
+  <script src="../assets/pages/continents.js"></script>
+</body>
+</html>
