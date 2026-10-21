@@ -2,6 +2,7 @@ name: Update data
 
 # The World Bank updates its indicators a few times a year. Every Monday this downloads
 # the sources, rebuilds the datasets and commits them when anything changed.
+# Flags are only downloaded for countries that do not have one yet.
 
 on:
   schedule:
