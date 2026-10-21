@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en" data-root="..">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Method · World Atlas</title>
+  <meta name="description" content="Sources, definitions and limitations behind the World Atlas.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231f3a5f'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='white' stroke-width='4'/%3E%3Cpath d='M15 32h34M32 15c-9 9-9 25 0 34M32 15c9 9 9 25 0 34' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/theme.css">
+  <style>
+    .prose h2 { color: var(--ink); margin: 32px 0 8px; }
+    .prose ul { margin: 0 0 12px; padding-left: 20px; }
+    .prose li { margin: 4px 0; }
+    .prose code { font-size: 13px; background: var(--hover); padding: 1px 5px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="wrap">
+      <header class="page-head">
+        <p class="eyebrow">World Atlas</p>
+        <h1>Method</h1>
+        <p class="lede">Where the figures come from, how continents are built, and what to keep in mind when reading them.</p>
+      </header>
+      <section class="block">
+        <div class="prose">
+          <h2>Sources</h2>
+          <ul>
+            <li><strong>Indicators</strong>: the World Bank's World Development Indicators, licensed CC BY 4.0, for the 217 economies the World Bank reports on, from 1960. The table below lists each series and its code.</li>
+            <li><strong>Country facts</strong> (official names, capitals, languages, currencies, land borders, subregions): the open <a href="https://github.com/mledoze/countries">mledoze/countries</a> dataset, licensed ODbL.</li>
+            <li><strong>Borders on the maps</strong>: Natural Earth, 1:50 million, through the world-atlas TopoJSON package. Boundaries on the maps do not imply any position on disputed territory.</li>
+            <li><strong>Flags</strong>: flagcdn.com, public domain.</li>
+          </ul>
+          <p>Every source file is kept in the repository under <code>data/raw/</code>, and a scheduled job refreshes them every week; the World Bank publishes updates a few times a year.</p>
+
+          <h2>Continents</h2>
+          <p>Countries are grouped into six continents by their region in the countries dataset: <strong>Africa</strong>, <strong>Asia</strong>, <strong>Europe</strong>, <strong>Oceania</strong>, and the Americas split into <strong>South America</strong> and <strong>North America</strong>, which includes Central America and the Caribbean. Russia counts in Europe and Turkey in Asia, as in the source. These differ from the World Bank's own regions (such as "Europe &amp; Central Asia"), which each country page also shows.</p>
+          <p>Continent and world figures are computed from their countries:</p>
+          <ul>
+            <li><strong>Totals</strong> (population, GDP, area, net migration) add the countries up.</li>
+            <li><strong>Rates</strong> (birth and death rates, fertility, life expectancy, age shares, urbanization) are averages weighted by population, so India counts more than Iceland.</li>
+            <li><strong>Per-person ratios</strong> divide two totals: GDP per capita is total GDP over total population; density is total population over total land area.</li>
+          </ul>
+          <p>A continent's figure for a year is published only when the countries with data hold at least 90% of its population, so a gap in reporting never looks like a change. Indicators that do not add up meaningfully (GDP growth, inflation, unemployment, inequality) are shown by country only.</p>
+
+          <h2>Reading the figures</h2>
+          <ul>
+            <li><strong>Birth and death rates</strong> are per 1,000 people per year. <strong>Fertility</strong> is the average number of children a woman would have at current rates; about 2.1 replaces a population without migration.</li>
+            <li><strong>GDP</strong> is in current US dollars at market exchange rates, which swing with currencies. <strong>PPP</strong> figures adjust for price levels and are better for comparing living standards.</li>
+            <li><strong>Density</strong> uses land area, excluding inland water; <strong>surface area</strong> includes it.</li>
+            <li><strong>Population pyramids</strong> come from five-year age groups by sex; the last group is everyone aged 80 and over.</li>
+            <li>The most recent years of many series are World Bank estimates and are revised as censuses and national accounts come in.</li>
+            <li>Maps, rankings and charts use a country's figure for the chosen year, or its most recent one from the four years before when that year is missing, and say so.</li>
+          </ul>
+
+          <h2>Indicators</h2>
+          <div class="card table-scroll" style="max-width:none"><table class="data" id="codes"></table></div>
+
+          <h2>Reproduce it</h2>
+          <p>The code is on <a href="https://github.com/angelmza1990/world-atlas">GitHub</a>. <code>scripts/fetch_data.py</code> downloads the sources and <code>scripts/build_data.py</code> builds the files the pages read. The build checks that the countries add up to the World Bank's world population and stops otherwise.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+  <script src="../assets/vendor/d3.v7.9.0.min.js"></script>
+  <script src="../assets/core.js"></script>
+  <script>
+    MH.shell("method");
+    MH.load("meta").then((m) => {
+      document.getElementById("codes").innerHTML = `<thead><tr><th>Indicator</th><th style="text-align:left">Unit</th><th style="text-align:left">World Bank code</th><th>Latest year</th></tr></thead><tbody>` +
+        m.indicators.map((i) => `<tr><td>${i.label}</td><td style="text-align:left" class="muted">${i.unit}</td><td style="text-align:left"><a href="https://data.worldbank.org/indicator/${i.code}">${i.code}</a></td><td>${i.latest}</td></tr>`).join("") + "</tbody>";
+    });
+  </script>
+</body>
+</html>

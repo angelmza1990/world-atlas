@@ -9,7 +9,8 @@
   <link rel="stylesheet" href="../assets/theme.css">
   <style>
     .shares { display: grid; gap: 14px; }
-    .share-row .lbl { font-size: 13px; color: var(--ink-2); margin-bottom: 4px; display: flex; justify-content: space-between; }
+    .share-row { min-width: 0; }
+    .share-row .lbl { font-size: 13px; color: var(--ink-2); margin-bottom: 4px; display: flex; flex-wrap: wrap; gap: 0 12px; justify-content: space-between; }
     .stack { display: flex; height: 34px; gap: 2px; border-radius: 4px; overflow: hidden; }
     .stack span { display: flex; align-items: center; justify-content: center; color: #fff; font-size: 11.5px; font-weight: 600; min-width: 0; overflow: hidden; white-space: nowrap; cursor: default; }
     .charts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
