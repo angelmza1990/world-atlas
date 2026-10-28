@@ -7,6 +7,7 @@
     { id: "countries", href: "countries/", label: "Countries" },
     { id: "continents", href: "continents/", label: "Continents" },
     { id: "compare", href: "compare/", label: "Compare" },
+    { id: "changes", href: "changes/", label: "Through time" },
     { id: "method", href: "method/", label: "Method" },
   ];
 

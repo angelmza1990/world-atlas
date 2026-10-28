@@ -52,7 +52,7 @@ for (const path of await pages()) {
   });
   await page.goto(base + path, { waitUntil: "networkidle0", timeout: 60000 }).catch((err) => problems.push(`load: ${err.message}`));
   await new Promise((r) => setTimeout(r, 500));
-  const charts = await page.evaluate(() => document.querySelectorAll("main svg, main table").length);
+  const charts = await page.evaluate(() => document.querySelectorAll("main svg, main table, main [data-chart]:not(:empty)").length);
   if (charts === 0) problems.push("nothing rendered (no charts or tables)");
   // Phone width: the page must not scroll sideways.
   await page.setViewport({ width: 390, height: 844 });
