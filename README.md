@@ -9,7 +9,8 @@ Population, demography and economy of every country and continent: population an
 - **[World map](https://angelmza1990.github.io/world-atlas/)**: world totals, a choropleth of 25 indicators for any year since 1960, and a ranking of every country, filterable by continent.
 - **[Countries](https://angelmza1990.github.io/world-atlas/countries/?c=ARG)**: a profile of each country with its capital, area, languages, currencies and neighbours, a locator map, its rank in the world for 18 indicators next to its continent and the world, population pyramids then and now, and series since 1960 (population, births and deaths, fertility, life expectancy, GDP per capita, age structure, urbanization, economic structure, GDP growth).
 - **[Continents](https://angelmza1990.github.io/world-atlas/continents/)**: each continent's share of the world's people, land and GDP, a side-by-side table, series since 1960 and population pyramids.
-- **[Compare](https://angelmza1990.github.io/world-atlas/compare/)**: any two indicators against each other for every country, sized by population, by year, in one chart or by continent.
+- **[Compare](https://angelmza1990.github.io/world-atlas/compare/)**: any two indicators against each other for every country, sized by population, by year (or played as an animation), in one chart or by continent.
+- **[Through time](https://angelmza1990.github.io/world-atlas/changes/)**: a race of the twelve most populous countries every year since 1960, and the countries that rose or fell most on any indicator between two chosen years, worldwide or by continent.
 - **[Method](https://angelmza1990.github.io/world-atlas/method/)**: sources, definitions and limitations.
 
 ## Data

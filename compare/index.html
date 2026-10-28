@@ -10,6 +10,7 @@
   <style>
     .year-row { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--ink-2); }
     .year-row input[type="range"] { width: 220px; accent-color: var(--accent); }
+    .year-row .play { font: 600 12.5px var(--sans); padding: 5px 12px; border-radius: 7px; border: 1px solid var(--ink); background: var(--ink); color: var(--surface); cursor: pointer; }
     .year-row b { font-variant-numeric: tabular-nums; color: var(--ink); min-width: 36px; }
     .facets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
     .facets .card { margin: 0; padding: 12px 14px; min-width: 0; }
@@ -26,7 +27,7 @@
       <header class="page-head">
         <p class="eyebrow">World Atlas</p>
         <h1>Compare indicators</h1>
-        <p class="lede">Every country as a circle sized by its population, placed by two indicators of your choice. Pick a year to see how the picture changed since 1960.</p>
+        <p class="lede">Every country as a circle sized by its population, placed by two indicators of your choice. Pick a year, or press play, to see how the picture changed since 1960.</p>
       </header>
 
       <section class="block">
@@ -34,7 +35,7 @@
         <div class="controls">
           <label class="control">Horizontal <select id="x"></select></label>
           <label class="control">Vertical <select id="y"></select></label>
-          <span class="year-row">Year <input type="range" id="year" min="1960" max="2025" step="1"><b id="year-label"></b></span>
+          <span class="year-row">Year <input type="range" id="year" min="1960" max="2025" step="1"><b id="year-label"></b><button type="button" class="play" id="play">Play</button></span>
         </div>
         <div class="controls">
           <span class="control">Scale <span id="scale-x"></span></span>

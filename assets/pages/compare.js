@@ -38,7 +38,18 @@
       presets.append(b);
     }
     const slider = document.getElementById("year");
-    slider.addEventListener("input", () => { state.year = +slider.value; document.getElementById("year-label").textContent = slider.value; draw(); });
+    const setYear = (y) => { state.year = y; slider.value = y; document.getElementById("year-label").textContent = y; draw(); };
+    slider.addEventListener("input", () => { stop(); setYear(+slider.value); });
+    // Play: step through the years, one every 400 ms.
+    const playBtn = document.getElementById("play");
+    let timer = null;
+    function stop() { clearInterval(timer); timer = null; playBtn.textContent = "Play"; }
+    playBtn.addEventListener("click", () => {
+      if (timer) return stop();
+      if (state.year >= +slider.max) setYear(+slider.min);
+      playBtn.textContent = "Pause";
+      timer = setInterval(() => (state.year >= +slider.max ? stop() : setYear(state.year + 1)), 400);
+    });
 
     function controls() {
       MH.seg(document.getElementById("scale-x"), [["ll", "Log × log"], ["lx", "Log horizontal"], ["ly", "Log vertical"], ["nn", "Linear"]],
@@ -84,7 +95,13 @@
       }
       pts.sort((a, b) => b.p - a.p); // big circles first, so small ones stay on top
       const out = document.getElementById("out");
-      const domX = d3.extent(pts, (d) => d.x), domY = d3.extent(pts, (d) => d.y);
+      // Axes span every year in the slider's range, so circles move against fixed axes when the year changes.
+      const span = (rows, log) => {
+        const vals = [];
+        for (const c of countries) for (const [yr, v] of rows[c.iso3] || []) if (yr >= +slider.min && yr <= +slider.max && v != null && (!log || v > 0)) vals.push(v);
+        return d3.extent(vals);
+      };
+      const domX = span(data.X, state.logX), domY = span(data.Y, state.logY);
       const rMax = d3.max(pts, (d) => d.p);
       document.getElementById("note").textContent = `${pts.length} countries in ${year}, sized by population; the most recent figure from the four years before is used where ${year} is missing.` +
         (dropped ? ` ${dropped} with zero or negative values are left off the log scale.` : "") + " Click a circle for the country.";
